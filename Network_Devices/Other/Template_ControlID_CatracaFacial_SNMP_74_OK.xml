@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>0ee0035dcab44107882b8de91eb2e044</uuid>
+            <name>Templates/Network devices</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>7b9fe9669eab44f686d47736d41a4af1</uuid>
+            <template>Template ControlID Catraca Facial SNMP</template>
+            <name>Template ControlID Catraca Facial SNMP</name>
+            <description>Template SNMP para Control iD (Catraca Facial Estacionamento)
+Itens baseados na MIB CONTROLID-MIB.
+Monitoramento: CPU, Temperatura, Rede, Aplicação e Alarmes físicos.</description>
+            <groups>
+                <group>
+                    <name>Templates/Network devices</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>85561631b72c4503a4c98a59c2601f8f</uuid>
+                    <name>CPU Usage (%)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.1.5.0</snmp_oid>
+                    <key>system.cpu.usage</key>
+                    <history>7d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>Uso da CPU do dispositivo Control iD via SNMP</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>32523e4359494618bed3191dbe2d5588</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/system.cpu.usage)&gt;=85</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>last(/Template ControlID Catraca Facial SNMP/system.cpu.usage)&lt;=60</recovery_expression>
+                            <name>CPU alta em {HOST.NAME}</name>
+                            <description>Alerta quando o uso de CPU da catraca excede 85%</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>39127798ee4849c4b1e93f241e2692b6</uuid>
+                    <name>CPU Temperature (°C)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.1.6.0</snmp_oid>
+                    <key>system.cpu.temp</key>
+                    <history>7d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>°C</units>
+                    <description>Temperatura da CPU (valor original em milésimos de grau)</description>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.001</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>2846e3f980f045849638da32038c59b5</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/system.cpu.temp)&gt;=70</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>last(/Template ControlID Catraca Facial SNMP/system.cpu.temp)&lt;=60</recovery_expression>
+                            <name>Temperatura alta da CPU em {HOST.NAME}</name>
+                            <description>Temperatura da CPU acima de 70°C</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>cde46de1ea3043c59f5106956539f058</uuid>
+                    <name>System Load Average (1/5/15)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.1.4.0</snmp_oid>
+                    <key>system.load.avg</key>
+                    <history>7d</history>
+                    <value_type>TEXT</value_type>
+                    <description>Média de carga do sistema em 1, 5 e 15 minutos</description>
+                </item>
+                <item>
+                    <uuid>4342ddddd9dd48e5a57cf0fca979478c</uuid>
+                    <name>Firmware Version</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.1.1.0</snmp_oid>
+                    <key>system.firmware</key>
+                    <history>7d</history>
+                    <value_type>TEXT</value_type>
+                    <description>Versão de firmware do dispositivo</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>d2bb8f06cccc4b638d31379b51ed6c8b</uuid>
+                            <expression>change(/Template ControlID Catraca Facial SNMP/system.firmware)&lt;&gt;0</expression>
+                            <name>Mudança de firmware em {HOST.NAME}</name>
+                            <description>Detecta alteração de firmware</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>f68acb2bfd4944dfa6e10a1b5f0258d5</uuid>
+                    <name>Device Date/Time</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.1.7.0</snmp_oid>
+                    <key>system.datetime</key>
+                    <history>7d</history>
+                    <value_type>TEXT</value_type>
+                    <description>Data e hora atuais do dispositivo</description>
+                </item>
+                <item>
+                    <uuid>2887e2048649400ea17ffa91848fdd26</uuid>
+                    <name>NTP Enabled (1=True,2=False)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.1.8.0</snmp_oid>
+                    <key>system.ntp.enabled</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>Indica se o NTP está habilitado (1=True, 2=False)</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>5981ddcd664e4e2685689484c537a14c</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/system.ntp.enabled)=2</expression>
+                            <name>NTP desabilitado em {HOST.NAME}</name>
+                            <description>NTP desativado no dispositivo</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>5086f0ad4c744db789696d1b2b26f330</uuid>
+                    <name>NTP Server(s)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.1.9.0</snmp_oid>
+                    <key>system.ntp.server</key>
+                    <history>7d</history>
+                    <value_type>TEXT</value_type>
+                    <description>Servidores NTP configurados (string)</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>029a4ebf8b5a4b03b02ade0078d05a10</uuid>
+                            <expression>length(last(/Template ControlID Catraca Facial SNMP/system.ntp.server))=0</expression>
+                            <name>NTP server vazio em {HOST.NAME}</name>
+                            <description>Sem servidores NTP configurados</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>447d496874104c00b291fd03bc21acb4</uuid>
+                    <name>DHCP Enabled (1=True,2=False)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.4.1.0</snmp_oid>
+                    <key>net.dhcp.status</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>Modo de endereço IP (1=DHCP, 2=Fixo)</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>554e11f274094cf2a601c3d47be76b00</uuid>
+                            <expression>change(/Template ControlID Catraca Facial SNMP/net.dhcp.status)&lt;&gt;0</expression>
+                            <name>Mudança de modo DHCP em {HOST.NAME}</name>
+                            <description>Detecta alteração de modo DHCP/Fixo</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>3b3d95043af54cc4bd2e2e56c2b028f8</uuid>
+                    <name>Users Count</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.7.1.0</snmp_oid>
+                    <key>app.users.count</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>Número total de usuários cadastrados</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>eff5d40fea124fcfa2fa47e706043b2f</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/app.users.count)&gt;2000</expression>
+                            <name>Usuários acima do limite em {HOST.NAME}</name>
+                            <description>Contagem de usuários excedeu o limite esperado</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>e1f954a5db544687bd5ef06b4ce3ff0a</uuid>
+                    <name>Facial Identification Enabled</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.7.4.0</snmp_oid>
+                    <key>app.facial.enabled</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>1=True, 2=False</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>f29ef93dd6af4257b55fb44b943c6715</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/app.facial.enabled)=2</expression>
+                            <name>Reconhecimento facial desabilitado em {HOST.NAME}</name>
+                            <description>O reconhecimento facial foi desabilitado</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>bc05b962c5524b0e9cd02f3cadb8b5d3</uuid>
+                    <name>Card Identification Enabled</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.7.6.0</snmp_oid>
+                    <key>app.card.enabled</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>1=True, 2=False</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>93c214ab8cb14a28adc155bd5a2b5032</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/app.card.enabled)=2</expression>
+                            <name>Leitor de cartão desabilitado em {HOST.NAME}</name>
+                            <description>Leitura de cartão desativada</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>7b8d33225e794e7faed0891c60325e64</uuid>
+                    <name>PIN Identification Enabled</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.7.8.0</snmp_oid>
+                    <key>app.pin.enabled</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>1=True, 2=False</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>a0524f8b486143d78f4b534d4f606263</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/app.pin.enabled)=1</expression>
+                            <name>PIN habilitado em {HOST.NAME}</name>
+                            <description>PIN foi habilitado; política pode exigir desativado</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>1fc12959241a4804a40531e1128028a7</uuid>
+                    <name>Door Sensor Enabled</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.9.1.0</snmp_oid>
+                    <key>alarm.door.sensor</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>1=True, 2=False</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>819556e09e3248ef91bf88e6861cd3cc</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/alarm.door.sensor)=2</expression>
+                            <name>Sensor de porta desabilitado em {HOST.NAME}</name>
+                            <description>Sensor de porta está desativado</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>1a4b62dde90e46ea911efbd6a4068a44</uuid>
+                    <name>Forced Access Detected</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.9.3.0</snmp_oid>
+                    <key>alarm.forced.access</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>1=True, 2=False</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>affd174b20464f8683324e4562b7b85d</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/alarm.forced.access)=1</expression>
+                            <name>Acesso forçado detectado em {HOST.NAME}</name>
+                            <description>Evento de acesso forçado foi detectado</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>3c3272b2a3ea4f3c89abf43f4f164bbd</uuid>
+                    <name>Device Violation Detected</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.9.7.0</snmp_oid>
+                    <key>alarm.device.violation</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>1=True, 2=False</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>92674201f2c74bfb8e7981d4417d4ce0</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/alarm.device.violation)=1</expression>
+                            <name>Violação do equipamento em {HOST.NAME}</name>
+                            <description>Violação física do dispositivo detectada</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>975c255fc9a34ebd93a4acae9778bcfe</uuid>
+                    <name>Alarm Buzzer Enabled</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.9.8.0</snmp_oid>
+                    <key>alarm.buzzer.enabled</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>1=True, 2=False</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>6eda19d365154bf09fbfae3dc1d77f15</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/alarm.buzzer.enabled)=2</expression>
+                            <name>Buzzer de alarme desabilitado em {HOST.NAME}</name>
+                            <description>Buzzer de alarme está desativado</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>419ac5050f324040b116493096a44862</uuid>
+                    <name>Pro Version License (1=True,2=False)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.1.3.0</snmp_oid>
+                    <key>system.pro.version</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>Indica se a licença Pro está ativa</description>
+                </item>
+                <item>
+                    <uuid>70c71448b7694322a8d67d1509117f01</uuid>
+                    <name>Device Online (1=True,2=False)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.49617.1.2.1.0</snmp_oid>
+                    <key>system.device.online</key>
+                    <history>7d</history>
+                    <value_type>UNSIGNED</value_type>
+                    <description>Status geral do dispositivo</description>
+                    <triggers>
+                        <trigger>
+                            <uuid>739c57afcacb40c7ab76d22bd4ded5e7</uuid>
+                            <expression>last(/Template ControlID Catraca Facial SNMP/system.device.online)=2</expression>
+                            <name>Dispositivo offline (SNMP) em {HOST.NAME}</name>
+                            <description>O dispositivo reportou estado offline</description>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+        </template>
+    </templates>
+    <graphs>
+        <graph>
+            <uuid>49940e9a3b4544f2bccc216c0d6feccf</uuid>
+            <name>Porcentagem de Uso do Processador em %</name>
+            <yaxismax>0</yaxismax>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>199C0D</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template ControlID Catraca Facial SNMP</host>
+                        <key>system.cpu.usage</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>
